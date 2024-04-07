@@ -16,7 +16,7 @@ const makeDomo = async (req, res) => {
   try {
     const newDomo = new Domo(domoData);
     await newDomo.save();
-    return res.status(201).json({ name: newDomo.name, age: newDomo.age});
+    return res.status(201).json({ name: newDomo.name, age: newDomo.age });
   } catch (err) {
     console.log(err);
     if (err.code === 11000) {
@@ -28,20 +28,18 @@ const makeDomo = async (req, res) => {
 };
 
 const getDomos = async (req, res) => {
-  try{
-    const query = {owner: req.session.account._id};
+  try {
+    const query = { owner: req.session.account._id };
     const docs = await Domo.find(query).select('name age').lean().exec();
 
-    return res.json({domos: docs});
+    return res.json({ domos: docs });
   } catch (err) {
     console.log(err);
     return res.status(400).json({ error: 'Error retrieving domos!' });
   }
 };
 
-const makerPage = async (req, res) => {
-  return res.render('app');
-};
+const makerPage = async (req, res) => res.render('app');
 
 module.exports = {
   makerPage,

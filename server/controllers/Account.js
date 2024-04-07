@@ -4,7 +4,6 @@ const { Account } = models;
 // Comment
 const loginPage = (req, res) => res.render('login');
 
-
 const logout = (req, res) => {
   req.session.destroy();
   return res.redirect('/');

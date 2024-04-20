@@ -3,87 +3,84 @@ const React = require('react');
 const { useState, useEffect} = React;
 const {createRoot} = require('react-dom/client');
 
-const handleDomo = (e, onDomoAdded) => {
+const handleTweet = (e, onTweetAdded) => {
     e.preventDefault();
     helper.hideError();
 
-    const name = e.target.querySelector('#domoName').value;
-    const age = e.target.querySelector('#domoAge').value;
+    const tweetText = e.target.querySelector('#tweetText').value;
 
-    if(!name || !age) {
+    if(!tweetText) {
         helper.handleError('All fiends are required');
         return false;
     }
 
-    helper.sendPost(e.target.action, {name, age}, onDomoAdded);
+    helper.sendPost(e.target.action, {tweetText}, onTweetAdded);
     return false;
 }
 
-const DomoForm = (props) => {
+const TweetForm = (props) => {
     return (
-        <form id='domoForm'
-            onSubmit={(e) => handleDomo(e, props.triggerReload)}
-            name='domoForm'
+        <form id='tweetForm'
+            onSubmit={(e) => handleTweet(e, props.triggerReload)}
+            name='tweetForm'
             action='/maker'
             method='POST'
-            className='domoForm'
+            className='tweetForm'
         >
             <label htmlFor='name'>Name: </label>
-            <input id='domoName' type='text' name='name' placeholder='Domo Name' />
-            <label htmlFor='age'>Age: </label>
-            <input id='domoAge' type='number' min='0' name='age'  />
-            <input className='makeDomoSubmit' type='submit' value='Make Domo'/>
+            <input id='tweetText' type='text' name='name' placeholder='Tweet Name' />
+            <input className='makeTweetSubmit' type='submit' value='Make Tweet'/>
         </form>
     );
 };
 
-const DomoList = (props) => {
-    const [domos, setDomos] = useState(props.domos);
+const TweetList = (props) => {
+    const [tweets, setTweets] = useState(props.tweets);
 
     useEffect(() => {
-        const loadDomosFromServer = async () => {
-            const response = await fetch('/getDomos');
+        const loadTweetsFromServer = async () => {
+            const response = await fetch('/getTweets');
             const data = await response.json();
-            setDomos(data.domos);
+            setTweets(data.tweets);
         };
-        loadDomosFromServer();
-    }, [props.reloadDomos]);
+        loadTweetsFromServer();
+    }, [props.reloadTweets]);
 
-    if(domos.length === 0) {
+    if(tweets.length === 0) {
         return (
-            <div className='domoList'>
-                <h3 className='emptyDomo'>No Domos Yet!</h3>
+            <div className='tweetList'>
+                <h3 className='emptyTweet'>No Tweets Yet!</h3>
             </div>
         );
     }
 
-    const domoNodes = domos.map(domo => {
+    const tweetNodes = tweets.map(tweet => {
         return (
-            <div key={domo.id} className='domo'>
-                <img src='/assets/img/domoface.jpeg' alt='domo face' className='domoFace'/>
-                <h3 className='domoName'>Name: {domo.name}</h3>
-                <h3 className='domOAge'>Age: {domo.age}</h3>
+            <div key={tweet.id} className='tweet'>
+                <img src='/assets/img/tweetface.jpeg' alt='tweet face' className='tweetFace'/>
+                <h3 className='tweetName'>Name: {tweet.tweetText}</h3>
+                
             </div>
         );
     });
 
     return (
-        <div className='domoList'>
-            {domoNodes}
+        <div className='tweetList'>
+            {tweetNodes}
         </div>
     );
 };
 
 const App = () => {
-    const [reloadDomos, setReloadDomos] = useState(false);
+    const [reloadTweets, setReloadTweets] = useState(false);
 
     return (
         <div>
-            <div id='makeDomo'>
-                <DomoForm triggerReload={() => setReloadDomos(!reloadDomos)}/>
+            <div id='makeTweet'>
+                <TweetForm triggerReload={() => setReloadTweets(!reloadTweets)}/>
             </div>
-            <div id='domos'>
-                <DomoList domos={[]} reloadDomos={reloadDomos}/>
+            <div id='tweets'>
+                <TweetList tweets={[]} reloadTweets={reloadTweets}/>
             </div>
         </div>
     );

@@ -15,7 +15,7 @@ const router = require('./router.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
-const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/domoMaker';
+const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/tweetMaker';
 
 const redisClient = redis.createClient({
   url: process.env.REDISCLOUD_URL,
@@ -37,7 +37,7 @@ redisClient.connect().then(() => {
     store: new RediStore({
       client: redisClient,
     }),
-    secret: 'Domo Arigato',
+    secret: 'Tweet Arigato',
     resave: false,
     saveUninitialized: false,
   }));

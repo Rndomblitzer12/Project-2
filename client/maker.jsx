@@ -27,7 +27,7 @@ const TweetForm = (props) => {
             method='POST'
             className='tweetForm'
         >
-            <label htmlFor='name'>Name: </label>
+            <label htmlFor='name'>Write a Tweet: </label>
             <input id='tweetText' type='text' name='name' placeholder='Tweet Name' />
             <input className='makeTweetSubmit' type='submit' value='Make Tweet'/>
         </form>
@@ -57,8 +57,8 @@ const TweetList = (props) => {
     const tweetNodes = tweets.map(tweet => {
         return (
             <div key={tweet.id} className='tweet'>
-                <img src='/assets/img/tweetface.jpeg' alt='tweet face' className='tweetFace'/>
-                <h3 className='tweetName'>Name: {tweet.tweetText}</h3>
+                <img src='/assets/img/face.png' alt='tweet face' className='tweetFace'/>
+                <h3 className='tweetName'> {tweet.tweetText}</h3>
                 
             </div>
         );

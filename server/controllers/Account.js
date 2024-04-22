@@ -1,7 +1,7 @@
 const models = require('../models');
 
 const { Account } = models;
-// Comment
+
 const loginPage = (req, res) => res.render('login');
 
 const logout = (req, res) => {
@@ -55,6 +55,10 @@ const signup = async (req, res) => {
     return res.status(400).json({ error: 'An error occured!' });
   }
 };
+
+//todo Add Reset Password functionality
+
+
 
 module.exports = {
   loginPage,

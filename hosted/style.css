@@ -20,6 +20,12 @@ nav {
     background-color: #55acee;
 }
 
+#ad {
+    width: 100%;
+    height: 50px;
+    background-color: #55acee;
+}
+
 nav:nth-child(1) {
     padding-left: 25px;
 }
@@ -47,7 +53,7 @@ nav:nth-child(1) {
     background-color: #66bdff;
 }
 
-.tweetForm {
+.tweetForm{
     border: 2px solid #338acc;
     height: 35px;
     width: 700px;

@@ -15,7 +15,7 @@ const makeTweet = async (req, res) => {
   try {
     const newTweet = new Tweet(tweetData);
     await newTweet.save();
-    return res.status(201).json({ tweet: newTweet.tweetText});
+    return res.status(201).json({ tweet: newTweet.tweetText });
   } catch (err) {
     console.log(err);
     if (err.code === 11000) {

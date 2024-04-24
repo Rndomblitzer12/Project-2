@@ -37,6 +37,10 @@ const AccountSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  profilePic: {
+    data: Buffer, // Store profile picture data as a buffer
+    contentType: String, // Store content type of the profile picture
+  },
   
 });
 

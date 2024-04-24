@@ -25,9 +25,10 @@ const handleSignup = (e) => {
     const username = e.target.querySelector('#user').value;
     const pass = e.target.querySelector('#pass').value;
     const pass2 = e.target.querySelector('#pass2').value;
+    const profilePic = e.target.querySelector('#profilePic').files[0];
 
-    if(!username || !pass || !pass2) {
-        helper.handleError('Username or password is empty!');
+    if(!username || !pass || !pass2 || !profilePic) {
+        helper.handleError('Username, password, profile picture is empty!');
         return false;
     }
 
@@ -36,7 +37,7 @@ const handleSignup = (e) => {
         return false;
     }
 
-    helper.sendPost(e.target.action, {username, pass, pass2});
+    helper.sendPost(e.target.action, {username, pass, pass2, profilePic});
     return false;
 }
 
@@ -48,12 +49,14 @@ const LoginWindow = (props) => {
             action='/login'
             method='POST'
             className='mainForm'
+            
         >
             <label htmlFor='username'>Username: </label>
             <input id='user' type='text' name='username' placeholder='username' />
             <label htmlFor='pass'>Password: </label>
             <input id='pass' type='password' name='pass' placeholder='password' />
             <input className='formSubmit' type='submit' value='Sign In'/>
+            
         </form>
     );
 };
@@ -66,6 +69,7 @@ const SignupWindow = (props) => {
             action='/signup'
             method='POST'
             className='mainForm'
+            encType='multipart/form-data'
         >
             <label htmlFor='username'>Username: </label>
             <input id='user' type='text' name='username' placeholder='username' />
@@ -73,6 +77,8 @@ const SignupWindow = (props) => {
             <input id='pass' type='password' name='pass' placeholder='password' />
             <label htmlFor='pass'>Password: </label>
             <input id='pass2' type='password' name='pass2' placeholder='retype password' />
+            <label htmlFor='profilePic'>Profile Picture: </label>
+            <input id='profilePic' type='file' name='profilePic' accept='image/*' /> {}
             <input className='formSubmit' type='submit' value='Sign Up'/>
         </form>
     );

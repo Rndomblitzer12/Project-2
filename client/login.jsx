@@ -37,6 +37,15 @@ const handleSignup = (e) => {
         return false;
     }
 
+    const formData = new FormData();
+
+    formData.append('username', username);
+    formData.append('pass', pass);
+    formData.append('pass2', pass2);
+    formData.append('profilePic', profilePic);
+
+
+
     helper.sendPost(e.target.action, {username, pass, pass2, profilePic});
     return false;
 }

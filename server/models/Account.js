@@ -40,7 +40,7 @@ const AccountSchema = new mongoose.Schema({
   profilePic: {
     type: String, // Store content type of the profile picture
   },
-  
+
 });
 
 // Converts a doc to something we can store in redis later on.

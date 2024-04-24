@@ -11,7 +11,7 @@ const session = require('express-session');
 const RediStore = require('connect-redis').default;
 const redis = require('redis');
 const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+const fileUpload = require('express-fileupload');
 
 const router = require('./router.js');
 
@@ -33,6 +33,7 @@ redisClient.connect().then(() => {
   app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+  app.use(fileUpload());
 
   app.use(session({
     key: 'sessionid',

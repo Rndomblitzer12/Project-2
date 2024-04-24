@@ -38,8 +38,7 @@ const AccountSchema = new mongoose.Schema({
     default: Date.now,
   },
   profilePic: {
-    data: Buffer, // Store profile picture data as a buffer
-    contentType: String, // Store content type of the profile picture
+    type: String, // Store content type of the profile picture
   },
   
 });
@@ -48,6 +47,7 @@ const AccountSchema = new mongoose.Schema({
 AccountSchema.statics.toAPI = (doc) => ({
   username: doc.username,
   _id: doc._id,
+  profilePic: doc.profilePic,
 });
 
 // Helper function to hash a password

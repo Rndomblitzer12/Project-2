@@ -33,7 +33,7 @@ const signup = async (req, res) => {
   const username = `${req.body.username}`;
   const pass = `${req.body.pass}`;
   const pass2 = `${req.body.pass}`;
-  console.log(req);
+  
   const { profilePic } = req.files;
 
   if (!username || !pass || !pass2 || !profilePic) {

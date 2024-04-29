@@ -57,7 +57,7 @@ const TweetList = (props) => {
     const tweetNodes = tweets.map(tweet => {
         return (
             <div key={tweet.id} className='tweet'>
-                <img src='/assets/img/face.png' alt='tweet face' className='tweetFace'/>
+                <img src='/profilePic' alt='tweet face' className='tweetFace'/>
                 <h3 className='tweetName'> {tweet.tweetText}</h3>
                 
             </div>

@@ -12,6 +12,7 @@ const router = (app) => {
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
   app.get('/profilePic', mid.requiresLogin, controllers.File.getProfilePic);
 
+  app.post('/upload', controllers.File.uploadFile);
   app.get('/maker', mid.requiresLogin, controllers.Tweet.makerPage);
   app.post('/maker', mid.requiresLogin, controllers.Tweet.makeTweet);
 

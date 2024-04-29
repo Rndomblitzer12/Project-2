@@ -23,6 +23,7 @@ const TweetSchema = new mongoose.Schema({
 
 TweetSchema.statics.toAPI = (doc) => ({
   tweetText: doc.tweetText,
+  owner: doc.owner,
 });
 
 const TweetModel = mongoose.model('Tweet', TweetSchema);

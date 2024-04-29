@@ -38,7 +38,7 @@ const AccountSchema = new mongoose.Schema({
     default: Date.now,
   },
   profilePic: {
-    type: String, // Store content type of the profile picture
+    type: mongoose.Schema.ObjectId  , // Store content type of the profile picture
   },
 
 });

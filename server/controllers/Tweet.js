@@ -29,9 +29,11 @@ const makeTweet = async (req, res) => {
 const getTweets = async (req, res) => {
   try {
     const query = { owner: req.session.account._id };
+    const username = { owner: req.session.account.username };
     const docs = await Tweet.find(query).select('tweetText').lean().exec();
 
-    return res.json({ tweets: docs });
+    return res.json({ tweets: docs,
+                      owner: username });
   } catch (err) {
     console.log(err);
     return res.status(400).json({ error: 'Error retrieving tweets!' });

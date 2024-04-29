@@ -94,8 +94,9 @@ const signup = async (req, res) => {
 };
 
 const getProfilePic = async (req, res) => {
+  console.log(req.session);
   try {
-    const pic = FileModel.findById(req.session.account.profilePic).lean().exec();
+    const pic = await FileModel.findById(req.session.account.profilePic).lean().exec();
 
     if (!pic) {
       return res.status(404).json({ error: 'could not find profile pic' });
@@ -115,5 +116,6 @@ const getProfilePic = async (req, res) => {
 module.exports = {
   uploadPage,
   uploadFile,
+  retrieveFile,
   getProfilePic,
 };

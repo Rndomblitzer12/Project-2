@@ -14,7 +14,7 @@ const handleLogin = (e) => {
         return false;
     }
 
-    helper.sendPost(e.target.action, {username, pass});
+    helper.sendData(e.target.action, {username, pass});
     return false;
 }
 
@@ -42,7 +42,7 @@ const handleSignup = (e) => {
     
 
 
-    helper.sendPost(e.target.action, formData);
+    helper.sendData(e.target.action, formData);
     return false;
 }
 

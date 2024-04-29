@@ -14,6 +14,8 @@ const handleTweet = (e, onTweetAdded) => {
         return false;
     }
 
+    
+
     helper.sendPost(e.target.action, {tweetText}, onTweetAdded);
     return false;
 }
@@ -35,7 +37,7 @@ const TweetForm = (props) => {
 };
 
 const TweetList = (props) => {
-    const [tweets, setTweets] = useState(props.tweets);
+    const [tweets, setTweets] = useState(props.tweets, props.owner);
 
     useEffect(() => {
         const loadTweetsFromServer = async () => {
@@ -56,9 +58,11 @@ const TweetList = (props) => {
 
     const tweetNodes = tweets.map(tweet => {
         return (
+            
             <div key={tweet.id} className='tweet'>
-                <img src='/profilePic' alt='tweet face' className='tweetFace'/>
-                <h3 className='tweetName'> {tweet.tweetText}</h3>
+                
+                <img src='profilePic' alt='tweet face' className='tweetFace'/>
+                <h3 className='tweetName'> {tweet.owner} {tweet.tweetText}</h3>
                 
             </div>
         );

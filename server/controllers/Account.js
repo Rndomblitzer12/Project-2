@@ -33,6 +33,7 @@ const signup = async (req, res) => {
   const username = `${req.body.username}`;
   const pass = `${req.body.pass}`;
   const pass2 = `${req.body.pass}`;
+  console.log(req);
   
   const { profilePic } = req.files;
 
@@ -54,7 +55,7 @@ const signup = async (req, res) => {
 
   try {
     const hash = await Account.generateHash(pass);
-    const newAccount = new Account({ username, password: hash, profilePic: profilePic._id });
+    const newAccount = new Account({ username, password: hash, profilePic: profilePicDoc._id });
     await newAccount.save();
     req.session.account = Account.toAPI(newAccount);
     return res.json({ redirect: '/maker' });

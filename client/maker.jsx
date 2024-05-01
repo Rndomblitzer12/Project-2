@@ -37,16 +37,40 @@ const TweetForm = (props) => {
 };
 
 const TweetList = (props) => {
-    const [tweets, setTweets] = useState(props.tweets, props.owner);
+    const [tweets, setTweets] = useState(props.tweets);
+    const [showDeleteButton, setShowDeleteButton] = useState(false);
 
     useEffect(() => {
         const loadTweetsFromServer = async () => {
-            const response = await fetch('/getTweets');
+            const response = await fetch('/getTweets'); // Fetch tweets with username
             const data = await response.json();
-            setTweets(data.tweets);
+            setTweets(data.tweetsWithUsername); // Update state with tweets including username
         };
         loadTweetsFromServer();
     }, [props.reloadTweets]);
+
+    const handleDelete = async (tweetId) => {
+        // Send a DELETE request to the server to delete the tweet
+        const response = await fetch(`/deleteTweet/${tweetId}`, {
+            method: 'DELETE'
+        });
+        if (response.ok) {
+            // If deletion is successful, reload tweets
+            const updatedTweets = tweets.filter(tweet => tweet._id !== tweetId);
+            loadTweetsFromServer();
+        } else {
+            // Handle error if deletion fails
+            console.error('Failed to delete tweet');
+        }
+    };
+
+    const toggleDeleteButton = () => {
+        setShowDeleteButton(!showDeleteButton);
+        const adElement = document.querySelector('.border-left');
+        const adElement2 = document.querySelector('.border-right');
+        adElement.classList.toggle('hidden');
+        adElement2.classList.toggle('hidden');
+    };
 
     if(tweets.length === 0) {
         return (
@@ -58,18 +82,18 @@ const TweetList = (props) => {
 
     const tweetNodes = tweets.map(tweet => {
         return (
-            
-            <div key={tweet.id} className='tweet'>
-                
-                <img src='profilePic' alt='tweet face' className='tweetFace'/>
-                <h3 className='tweetName'> {tweet.owner} {tweet.tweetText}</h3>
-                
+            <div key={tweet._id} className='tweet'> {/* Assuming tweet has an _id field */}
+                <img src={`/profilePic/${tweet.owner}`} alt='tweet face' className='tweetFace'/>
+                <h2 className='tweetName'>User: {tweet.username}</h2> {/* Display username */}
+                <h3 className='tweetName'>{tweet.tweetText}</h3>
+                {showDeleteButton && <button class="button is-primary" onClick={() => handleDelete(tweet._id)}>Delete</button>}
             </div>
         );
     });
 
     return (
         <div className='tweetList'>
+            <button class="button is-primary" onClick={toggleDeleteButton}>Activate Twitter Prime</button>
             {tweetNodes}
         </div>
     );

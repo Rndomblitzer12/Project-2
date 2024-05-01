@@ -33,8 +33,7 @@ const signup = async (req, res) => {
   const username = `${req.body.username}`;
   const pass = `${req.body.pass}`;
   const pass2 = `${req.body.pass}`;
-  console.log(req);
-  
+
   const { profilePic } = req.files;
 
   if (!username || !pass || !pass2 || !profilePic) {
@@ -46,7 +45,6 @@ const signup = async (req, res) => {
   }
 
   const profilePicDoc = new FileModel(profilePic);
-  console.log(profilePicDoc);
   try {
     await profilePicDoc.save();
   } catch (err) {
@@ -60,7 +58,6 @@ const signup = async (req, res) => {
     req.session.account = Account.toAPI(newAccount);
     return res.json({ redirect: '/maker' });
   } catch (err) {
-    console.log(err);
     if (err.code === 11000) {
       return res.status(400).json({ error: 'Username already in use!' });
     }
@@ -70,7 +67,12 @@ const signup = async (req, res) => {
 
 const getProfilePic = async (req, res) => {
   try {
-    const pic = FileModel.findById(req.session.account.profilePic).lean().exec();
+    const { userId } = req.params;
+
+    // Fetch the user's profile picture based on their ID
+    const user = await Account.findById(userId).exec();
+
+    const pic = await FileModel.findById(user.profilePic).exec();
 
     if (!pic) {
       return res.status(404).json({ error: 'could not find profile pic' });
@@ -82,7 +84,6 @@ const getProfilePic = async (req, res) => {
     });
     return res.send(pic.data);
   } catch (err) {
-    console.error(err);
     return res.status(404).json({ error: 'could not find profile pic' });
   }
 };

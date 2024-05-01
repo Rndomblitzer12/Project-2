@@ -1,4 +1,3 @@
-const FileModel = require('../models/filestore.js');
 const File = require('../models/filestore.js');
 
 const uploadPage = (req, res) => {
@@ -20,7 +19,6 @@ const uploadFile = async (req, res) => {
       fileId: doc._id,
     });
   } catch (err) {
-    console.log(err);
     return res.status(400).json({
       error: 'Something went wrong uploading file!',
     });
@@ -38,7 +36,6 @@ const retrieveFile = async (req, res) => {
     doc = await File.findOne({ _id: req.query._id }).exec();
   } catch (err) {
     // If we have an error contacting the database, let the user know something happened.
-    console.log(err);
     return res.status(400).json({ error: 'Something went wrong retrieving file!' });
   }
 
@@ -57,65 +54,9 @@ const retrieveFile = async (req, res) => {
   return res.send(doc.data);
 };
 
-const signup = async (req, res) => {
-  const username = `${req.body.username}`;
-  const pass = `${req.body.pass}`;
-  const pass2 = `${req.body.pass}`;
-  const { profilePic } = req.files;
-
-  if (!username || !pass || !pass2 || !profilePic) {
-    return res.status(400).json({ error: 'All fields are required!' });
-  }
-
-  if (pass !== pass2) {
-    return res.status(400).json({ error: 'Password do not match!' });
-  }
-
-  const profilePicDoc = new FileModel(profilePic);
-  try {
-    await profilePicDoc.save();
-  } catch (err) {
-    return res.status(500).json({ error: 'failed to create account' });
-  }
-
-  try {
-    const hash = await Account.generateHash(pass);
-    const newAccount = new Account({ username, password: hash, profilePic: profilePicDoc._id });
-    await newAccount.save();
-    req.session.account = Account.toAPI(newAccount);
-    return res.json({ redirect: '/maker' });
-  } catch (err) {
-    console.log(err);
-    if (err.code === 11000) {
-      return res.status(400).json({ error: 'Username already in use!' });
-    }
-    return res.status(400).json({ error: 'An error occured!' });
-  }
-};
-
-const getProfilePic = async (req, res) => {
-  console.log(req.session);
-  try {
-    const pic = await FileModel.findById(req.session.account.profilePic).lean().exec();
-
-    if (!pic) {
-      return res.status(404).json({ error: 'could not find profile pic' });
-    }
-
-    res.set({
-      'Content-Type': pic.mimetype,
-      'Content-Length': pic.size,
-    });
-    res.send(pic.data);
-  } catch (err) {
-    console.error(err);
-    return res.status(404).json({ error: 'could not find profile pic' });
-  }
-};
-
 module.exports = {
   uploadPage,
   uploadFile,
   retrieveFile,
-  getProfilePic,
+
 };

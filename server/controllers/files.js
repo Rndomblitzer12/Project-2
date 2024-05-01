@@ -1,30 +1,5 @@
 const File = require('../models/filestore.js');
 
-const uploadPage = (req, res) => {
-  res.render('upload');
-};
-
-const uploadFile = async (req, res) => {
-  if (!req.files || !req.files.sampleFile) {
-    return res.status(400).json({ error: 'No files were uploaded' });
-  }
-
-  const { sampleFile } = req.files;
-
-  try {
-    const newFile = new File(sampleFile);
-    const doc = await newFile.save();
-    return res.status(201).json({
-      message: 'File stored successfully!',
-      fileId: doc._id,
-    });
-  } catch (err) {
-    return res.status(400).json({
-      error: 'Something went wrong uploading file!',
-    });
-  }
-};
-
 const retrieveFile = async (req, res) => {
   if (!req.query._id) {
     return res.status(400).json({ error: 'Missing file id!' });
@@ -55,8 +30,6 @@ const retrieveFile = async (req, res) => {
 };
 
 module.exports = {
-  uploadPage,
-  uploadFile,
   retrieveFile,
 
 };

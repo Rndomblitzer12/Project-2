@@ -12,7 +12,6 @@ const router = (app) => {
   app.get('/profilePic/:userId', mid.requiresLogin, controllers.Account.getProfilePic);
   app.delete('/deleteTweet/:tweetId', mid.requiresLogin, controllers.Tweet.deleteTweet);
 
-  app.post('/upload', controllers.File.uploadFile);
   app.get('/maker', mid.requiresLogin, controllers.Tweet.makerPage);
   app.post('/maker', mid.requiresLogin, controllers.Tweet.makeTweet);
 

@@ -8,7 +8,6 @@ const router = (app) => {
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
 
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
-  app.post('/resetPass', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
   app.get('/profilePic/:userId', mid.requiresLogin, controllers.Account.getProfilePic);
   app.delete('/deleteTweet/:tweetId', mid.requiresLogin, controllers.Tweet.deleteTweet);
